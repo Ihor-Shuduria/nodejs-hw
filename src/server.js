@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from 'express';
 import cors from 'cors';
+import { errors } from 'celebrate';
 import { connectMongoDB } from './db/connectMongoDB.js';
 import { logger } from './middleware/logger.js';
 import { errorHandler } from './middleware/errorHandler.js';
@@ -14,13 +15,10 @@ app.use(logger);
 app.use(cors());
 app.use(express.json());
 
-// ⬇️ РОУТИ
 app.use(noteRoutes);
 
-// ⬇️ 404
 app.use(notFoundHandler);
-
-// ⬇️ errors
+app.use(errors());
 app.use(errorHandler);
 
 await connectMongoDB();
